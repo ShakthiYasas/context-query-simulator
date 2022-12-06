@@ -30,6 +30,18 @@ public class Operation extends Event{
         }
     }
 
+    public void unsubscribe(String channelName, Object subscriber) {
+        if (channels.containsKey(channelName)) {
+            channels.get(channelName).remove(subscriber.hashCode());
+        }
+    }
+
+    public void deleteChannel(String channelName) {
+        if (channels.containsKey(channelName)) {
+            channels.remove(channelName);
+        }
+    }
+
     private <T, P extends Post> boolean deliverMessage(T subscriber, Method method, Post message) {
         try {
             boolean methodFound = false;

@@ -4,13 +4,15 @@ import Jobs.QueryJob;
 import Utils.PubSub.Event;
 import org.quartz.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
+import java.util.Timer;
 import java.util.UUID;
 import java.util.logging.Logger;
 
 import static org.quartz.SimpleScheduleBuilder.simpleSchedule;
-
 
 public class QueryScheduler {
 
@@ -54,12 +56,17 @@ public class QueryScheduler {
                 .build();
 
         LocalDateTime now = LocalDateTime.now();
-        Date startTime = new Date(now.getYear(), now.getMonthValue(), now.getDayOfMonth(),
-                query.hour, query.minute, query.second);
 
+        // Start Time
+        LocalDateTime ldt = LocalDateTime.of(now.getYear(), now.getMonthValue(), now.getDayOfMonth(),
+                query.hour, query.minute, query.second);
+        Date startTime = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
+
+        // End Time
         LocalDateTime eTime = now.plusMinutes(10);
-        Date endTime = new Date(eTime.getYear(), eTime.getMonthValue(), eTime.getDayOfMonth(),
+        LocalDateTime edt = LocalDateTime.of(eTime.getYear(), eTime.getMonthValue(), eTime.getDayOfMonth(),
                 eTime.getHour(), eTime.getMinute(), eTime.getMinute());
+        Date endTime = Date.from(edt.atZone(ZoneId.systemDefault()).toInstant());
 
         SimpleTrigger trigger = (SimpleTrigger) TriggerBuilder.newTrigger()
                 .withIdentity(queryId+":Trigger", "queryGen")
@@ -67,7 +74,7 @@ public class QueryScheduler {
                 .endAt(endTime)
                 .build();
 
-        log.info("Scheduling context query: " + queryId);
+        log.info("Scheduling context query: " + queryId + " for execution at: " + startTime.toString());
         scheduler.scheduleJob(job, trigger);
     }
 
@@ -80,10 +87,10 @@ public class QueryScheduler {
                 .withIdentity("fetchTrigger", "queryGen")
                 .startNow()
                 .withSchedule(simpleSchedule()
-                        .withIntervalInMinutes(10))
+                        .withIntervalInMinutes(60))
                 .build();
 
-        log.info("Started job to fetch queries that are planned for execution during the next 10 minutes");
+        log.info("Started job to fetch queries that are planned for execution during the next 5 minutes");
         scheduler.scheduleJob(job, trigger);
     }
 }
