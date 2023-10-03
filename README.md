@@ -4,5 +4,7 @@ The rapid growth in Internet of Things (IoT) has ushered in the way for better c
 
 ![Architecture Full](https://user-images.githubusercontent.com/18043441/205787322-d10e01a7-6093-4e2d-879a-4fba4df6b109.png)
 
-Please refer to "Context Query Simulation for Smart Carparking Scenarios in the Melbourne CDB" by S.Weerasinghe, A. Zaslavsky, A. Hassani, Seng W. Loke, A. Medvedev, & A. Abken for research specifications : https://www.researchgate.net/publication/364349274_Context_Query_Simulation_for_Smart_Carparking_Scenarios_in_the_Melbourne_CDB.
+Please refer to our paper:
+[1] S. Weerasinghe, A. Zaslavsky, A. Hassani, S. W. Loke, A. Medvedev, and A. Abken, ‘Context Query Simulation for Smart Carparking Scenarios in the Melbourne CDB’. arXiv, Feb. 13, 2023. Accessed: Mar. 08, 2023. [Online]. Available: http://arxiv.org/abs/2302.07190
+
 
