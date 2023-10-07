@@ -7,7 +7,7 @@ The rapid growth in Internet of Things (IoT) has ushered in the way for better c
 Please refer to our paper:
 [1] S. Weerasinghe, A. Zaslavsky, A. Hassani, S. W. Loke, A. Medvedev, and A. Abken, ‘Context Query Simulation for Smart Carparking Scenarios in the Melbourne CDB’. arXiv, Feb. 13, 2023. Accessed: Mar. 08, 2023. [Online]. Available: http://arxiv.org/abs/2302.07190
 
-# Despription of the dataset
+## Despription of the dataset
 
 | Parameter | Description | Nullable |
 | --- | --- | --- |
@@ -25,18 +25,18 @@ Please refer to our paper:
 | second | The specific second of the minute that the context query need get executed. | False |
 | --- | --- | --- |
 
-# Sample context queries from the Context Query Generator
-## Sample Query 1 
-prefix schema:http//schema.org push (targetCarpark.*)
+## Sample context queries from the Context Query Generator
+### Sample Query 1 
+`prefix schema:http//schema.org push (targetCarpark.*)
 when distance(consumerCar.location, targetLocation.geo)<={“value”:500, “unit”:”m”} 
 define
 entity targetLocation is from schema:Place where targetLocation.name=”Melbourne Skydeck”, 
 entity consumerCar is from schema:Vehicle where cosumerCar.vin=”13UNVER82367G4”,
 entity targetCarpark is from schema:ParkingFacility where goodForWalking(targetWeather)>=0.6 and 
-  targetCarpark.maxHeight>consumerCar.height targetCarpark.isOpen=true and targetCarpark.availableSlots>0
+  targetCarpark.maxHeight>consumerCar.height targetCarpark.isOpen=true and targetCarpark.availableSlots>0`
 
-## Sample Query 2
-prefix schema:http//schema.org
+### Sample Query 2
+`prefix schema:http//schema.org
 pull (targetCarpark.*)
 define
 entity targetLocation is from schema:Place where targetLocation.name=”Melbourne Skydeck”, 
@@ -45,6 +45,6 @@ entity taregtWeather is from schema:Thing where targetWeather.location=”Melbou
 entity targetCarpark is from schema:ParkingFacility where
   ((distance(targetCarpark.location, targetLocation.geo, “walking”)<{“value”:200, “unit”:”m”} and goodForWalking(targetWeather)>=0.6) or goodForWalking(targetWeather)>0.9) and
   targetCarpark.maxHeight>consumerCar.height and targetCarpark.isOpen=true and targetCarpark.availableSlots>0 and targetCarpark.price<={“value”:20, “unit”:”aud”} and
-  targetCarpark.rating>=3 and isAvailable(tagetCarpark.availableSlots, {“start_time”:now(), “end_time”:{“2020-07- 12T18:00:00”, “unit”:”datetime”}})
+  targetCarpark.rating>=3 and isAvailable(tagetCarpark.availableSlots, {“start_time”:now(), “end_time”:{“2020-07- 12T18:00:00”, “unit”:”datetime”}})`
 
 
