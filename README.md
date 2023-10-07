@@ -7,6 +7,14 @@ The rapid growth in Internet of Things (IoT) has ushered in the way for better c
 Please refer to our paper:
 [1] S. Weerasinghe, A. Zaslavsky, A. Hassani, S. W. Loke, A. Medvedev, and A. Abken, ‘Context Query Simulation for Smart Carparking Scenarios in the Melbourne CDB’. arXiv, Feb. 13, 2023. Accessed: Mar. 08, 2023. [Online]. Available: http://arxiv.org/abs/2302.07190
 
+## Generating context query dataset
+Just execute the queryGenerator.bash file in src/main/PrakingQueryGenerator using the terminal.
+The query generator may take a number of hours to complete depending on the total number of query templates created in Step 1.
+For instance, it took 36+ hours complete 898,050 queries in my computer (Mac book with 8GB Memory, 2.4 GHz Quad-Core Intel Core i5).
+
+## Executing the context query dataset (realistically)
+Execute the main in QueryGeneratingServer.java from src/main/java once the context query dataset has been created.
+
 ## Despription of the dataset
 
 | Parameter | Description | Nullable |
@@ -23,7 +31,6 @@ Please refer to our paper:
 | hour | The specific hour of the day that the context query need get executed. | False |
 | minute | The specific minute of the hour that the context query need get executed. | False |
 | second | The specific second of the minute that the context query need get executed. | False |
-| --- | --- | --- |
 
 ## Sample context queries from the Context Query Generator
 ### Sample Query 1 
