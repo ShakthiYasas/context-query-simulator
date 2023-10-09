@@ -50,9 +50,10 @@ public class QueryFetchJob implements Job {
 
 
             LocalDateTime time = LocalDateTime.now();
-            LocalDateTime newtime = time.plusMinutes(60);
+            LocalDateTime newtime = time.plusMinutes(10);
 
             Bson filters = null;
+            // Comment the following if-else block when needed to generate another sample query load
             if(newtime.getHour() == time.getHour()){
                 filters = Filters.and(
                         Filters.eq("hour", time.getHour()),
@@ -76,7 +77,8 @@ public class QueryFetchJob implements Job {
                 );
             }
 
-            // filters = Filters.eq("day", getDayOfWeek(time.getDayOfWeek().getValue()));
+            // Uncomment following when needed to generate another sample query load
+            //filters = Filters.eq("day", getDayOfWeek(time.getDayOfWeek().getValue()));
             FindIterable<Document> queries = collection.find(filters);
 
             MongoDatabase db_2 = mongoClient.getDatabase("coaas");
@@ -93,11 +95,12 @@ public class QueryFetchJob implements Job {
                 String query = buildQuery(doc);
                 String id = doc.getObjectId("_id").toString();
 
-//                MongoCollection<Document> qs = db.getCollection("test-queries");
-//                Document final_query = new Document();
-//                final_query.put("token", token);
-//                final_query.put("query", query);
-//                qs.insertOne(final_query);
+                // Uncomment following when needed to generate another sample query load
+                MongoCollection<Document> qs = db.getCollection("test-queries-2");
+                Document final_query = new Document();
+                final_query.put("token", token);
+                final_query.put("query", query);
+                qs.insertOne(final_query);
 
                 // The following 3 lines are commented out temporarily.
                 ContextQuery cq = new ContextQuery(day, hour, min, second, query, id, token);
@@ -114,7 +117,7 @@ public class QueryFetchJob implements Job {
         }
     }
 
-    private static ArrayList<String> additionals = new ArrayList<>(Arrays.asList("height", "isOpen", "availableSlots"));
+    private static ArrayList<String> additionals = new ArrayList<>(Arrays.asList("height", "isOpen", "availableSlots", "goodForWalking"));
     private static ArrayList<String> defKeys = new ArrayList<>(Arrays.asList("_id", "location", "vin", "address", "distance", "day", "hour", "minute", "second", "expected_time"));
 
     private static String buildQuery(Document query){
@@ -160,7 +163,7 @@ public class QueryFetchJob implements Job {
             Document vehicle = collection.aggregate(Arrays.asList(match(filter), sample(1))).first();
 
             finalQuery = String.format(queryString,
-                    query.getString("address"),
+                    query.getString("address").replace("'", ""),
                     vehicle.getString("vin"),
                     query.getInteger("distance"));
         }
@@ -195,6 +198,12 @@ public class QueryFetchJob implements Job {
                 time.plusMinutes(minutes);
                 return " and isAvailable (targetCarpark.availableSlots, {\"start_time\":now(), \"end_time\":{\"value\":\""
                         + time.toString() + "\", \"unit\":\"datetime\"})";
+            }
+            case "goodForWalking": {
+                if(((double)value) > 0.7){
+                    double rand_value = Math.random();
+                    return " and goodForWalking(targetWeather)>="+ String.format("%.2f", rand_value) +")";
+                }
             }
         }
         return "";
