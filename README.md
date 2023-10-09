@@ -16,6 +16,8 @@ For instance, it took 36+ hours complete 898,050 queries in my computer (Mac boo
 Execute the main in QueryGeneratingServer.java from src/main/java once the context query dataset has been created.
 
 ## Despription of the dataset
+The dataset can be accessed in dataset/Context Query Templates.csv. This is the typical output of the context query genration process. 
+Nullable indicates that the parameter can be optionally appear in the context query.
 
 | Parameter | Description | Nullable |
 | --- | --- | --- |
@@ -33,6 +35,15 @@ Execute the main in QueryGeneratingServer.java from src/main/java once the conte
 | second | The specific second of the minute that the context query need get executed. | False |
 
 ## Sample context queries from the Context Query Generator
+Executable context query loads can be accesses in sample/.
+These context query loads are transformed excutable CDQL queries genertaed from the CQG. This output can be produced in the CQG by uncommenting several lines of code as instructed in src/main/java/Jobs/QueryFetchJob.java.
+There are 3 context query loads provided in samples:
+- tuesday-queries : the set of context queries that are to be requested only within Tuesday of the week from the dataset (Reliastic dataset only considering a context queries worth a day).
+- test-queries-2 :the set of context queries arranged by target location. Use this context query set, only when the model needs to be optimized specifically for the context of the target location.
+- test-queries-3 : the random set of context queries in correlating to the business of locations, road networks (traffic) etc. during the week. (Most realistic dataset).
+
+Following are 2 of the example context queries from test-queries-3.json.
+
 ### Sample Query 1 
 `prefix schema:http//schema.org push (targetCarpark.*)
 when distance(consumerCar.location, targetLocation.geo)<={“value”:500, “unit”:”m”} 
